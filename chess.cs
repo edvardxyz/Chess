@@ -1,14 +1,17 @@
 // Just started learning C# in school
 // this chess game is made pretty fast but works kinda
+//
 // TODO: if king or space to traverse to castle is under attack make castling not possible
 // TODO: make array that indicates which part of board is under attack
-// TODO: make pawn queens at the end or let player select
+// DONE: make pawn queens at the end or let player select
 // TODO: get en passant moves
-// TODO: if invaid selection throw error before letting player select where to move
+// DONE: if invaid selection throw error before letting player select where to move
 // TODO: make computer do random moves to play against
 // TODO: maybe create a timer mode
 // TODO: if king is killed stop game & congrat winner
 // TODO: make draw if 3 fold repitiion
+// TODO: create more methods to shorten code
+// TODO:
 
 
 using System;
@@ -17,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public static class Skak
+public static class Chess
 {
     // board[64] is 1 if white rook on 56 moved
     // board[65] is 1 if white king moved
@@ -176,9 +179,12 @@ public static class Skak
             string strboard = new string(board);
             strcheckboard = String.Copy(strboard);
             checkboard = strcheckboard.ToCharArray();
+            selIndexPieceBlack = 99;
+            selIndexPiece = 99;
 
 
             // Get piece player want to move
+            while(selIndexPiece > 63 || selIndexPieceBlack > 63){
             Console.Clear();
             Console.Write($"Player {player} select the piece you want to move\nFirst press the column(letter)...\n\n");
             printPiece(board, 99, "column", wkills, bkills, player, 99);
@@ -196,6 +202,7 @@ public static class Skak
             // same for black selection (just to show sel not used for moves)
             stringPieceBlack = charsToString(piececolumn.KeyChar, piecerow.KeyChar);
             selIndexPieceBlack = selection2IndexBlack(stringPieceBlack);
+            }
 
             // Get where player want to move the selected piece
             Console.Write("Select the field you want to move to\nFirst press the column(letter)...\n\n");
@@ -238,9 +245,6 @@ public static class Skak
 
         }
     }
-    // static void timer();
-    // static void checkwin();
-    // static void check();
 
     static string changePlayer(string player)
     {
@@ -253,6 +257,67 @@ public static class Skak
         return player;
     }
 
+    static char pawn2(string player){
+        ConsoleKeyInfo selNewPiece;
+        char newPiece;
+            while(player=="white"){
+                // Console.Clear();
+                Console.WriteLine("Choose the piece you want... ");
+                Console.WriteLine($"a) [{wqueen}]");
+                Console.WriteLine($"b) [{wrook}]");
+                Console.WriteLine($"c) [{wbishop}]");
+                Console.WriteLine($"d) [{wknight}]");
+                selNewPiece = Console.ReadKey(true);
+                switch(selNewPiece.KeyChar){
+                    case 'a':
+                        newPiece = wqueen;
+                        return newPiece;
+                    case 'b':
+                        newPiece = wrook;
+                        return newPiece;
+                    case 'c':
+                        newPiece = wbishop;
+                        return newPiece;
+                    case 'd':
+                        newPiece = wknight;
+                        return newPiece;
+                    default:
+                        Console.WriteLine("Select by pressing a, b, c or d...");
+                        Console.ReadKey();
+                        break;
+                        }
+            }
+            while(player=="black"){
+                // Console.Clear();
+                Console.WriteLine("Choose the piece you want... ");
+                Console.WriteLine($"a) [{bqueen}]");
+                Console.WriteLine($"b) [{brook}]");
+                Console.WriteLine($"c) [{bbishop}]");
+                Console.WriteLine($"d) [{bknight}]");
+                selNewPiece = Console.ReadKey(true);
+                switch(selNewPiece.KeyChar){
+                    case 'a':
+                        newPiece = bqueen;
+                        return newPiece;
+                    case 'b':
+                        newPiece = brook;
+                        return newPiece;
+                    case 'c':
+                        newPiece = bbishop;
+                        return newPiece;
+                    case 'd':
+                        newPiece = bknight;
+                        return newPiece;
+                    default:
+                        Console.WriteLine("Select by pressing a, b, c or d...");
+                        Console.ReadKey();
+                        break;
+                        }
+            }
+            return ' ';
+    }
+
+
     static char[] movePiece(char[] board, int indexMove2, int indexPiece, string player){
         // bool clearPath;
         char charPiece = board[indexPiece];
@@ -262,6 +327,9 @@ public static class Skak
                     if(indexPiece-8 == indexMove2 && board[indexMove2] == ' '){
                         board[indexPiece] = ' ';
                         board[indexMove2] = charPiece;
+                        if(indexMove2 <= 7){
+                           board[indexMove2] = pawn2("white");
+                        }
                     }
                     else if(indexPiece >= 48 && indexPiece-16 == indexMove2 && board[indexMove2] == ' '){
                         board[indexPiece] = ' ';
@@ -271,11 +339,17 @@ public static class Skak
                         board[indexPiece] = ' ';
                         board[70] = board[indexMove2];
                         board[indexMove2] = charPiece;
+                        if(indexMove2 <= 7){
+                           board[indexMove2] = pawn2("white");
+                        }
                     }
                     else if(indexPiece-7 == indexMove2 && (Array.Exists(black, element => element == board[indexMove2]))){
                         board[indexPiece] = ' ';
                         board[70] = board[indexMove2];
                         board[indexMove2] = charPiece;
+                        if(indexMove2 <= 7){
+                           board[indexMove2] = pawn2("white");
+                        }
                     }
                     break;
                 case wrook:
@@ -524,6 +598,9 @@ public static class Skak
                     if(indexPiece+8 == indexMove2 && board[indexMove2] == ' '){
                         board[indexPiece] = ' ';
                         board[indexMove2] = charPiece;
+                        if(indexMove2 >= 56){
+                           board[indexMove2] = pawn2("black");
+                        }
                     }
                     else if(indexPiece <= 15 && indexPiece+16 == indexMove2 && board[indexMove2] == ' '){
                         board[indexPiece] = ' ';
@@ -533,11 +610,17 @@ public static class Skak
                         board[indexPiece] = ' ';
                         board[70] = board[indexMove2];
                         board[indexMove2] = charPiece;
+                        if(indexMove2 >= 56){
+                           board[indexMove2] = pawn2("black");
+                        }
                     }
                     else if(indexPiece+7 == indexMove2 && (Array.Exists(white, element => element == board[indexMove2]))){
                         board[indexPiece] = ' ';
                         board[70] = board[indexMove2];
                         board[indexMove2] = charPiece;
+                        if(indexMove2 >= 56){
+                           board[indexMove2] = pawn2("black");
+                        }
                     }
                     break;
                 case bking:
@@ -824,6 +907,7 @@ public static class Skak
                     x++;
                 }
                 y += 8;
+                Console.WriteLine(); //space after each line (dont know if like better)
             }
             if(selrowOrcolumn == "row"){
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -886,6 +970,7 @@ public static class Skak
                     x++;
                 }
                 y += 8;
+                Console.WriteLine(); //space after each line (dont know if like better)
             }
             if(selrowOrcolumn == "row"){
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -900,19 +985,19 @@ public static class Skak
             Console.Write($"Player black taken pieces: ");
             Console.WriteLine(bkills);
 
-            // testing info
-            Console.WriteLine("white rook flag");
-            Console.WriteLine(board[64]);
-            Console.WriteLine("white king flag");
-            Console.WriteLine(board[65]);
-            Console.WriteLine("white rook flag");
-            Console.WriteLine(board[66]);
-            Console.WriteLine("black rook flag");
-            Console.WriteLine(board[67]);
-            Console.WriteLine("black king flag");
-            Console.WriteLine(board[68]);
-            Console.WriteLine("black rook flag");
-            Console.WriteLine(board[69]);
+            // // testing info
+            // Console.WriteLine("white rook flag");
+            // Console.WriteLine(board[64]);
+            // Console.WriteLine("white king flag");
+            // Console.WriteLine(board[65]);
+            // Console.WriteLine("white rook flag");
+            // Console.WriteLine(board[66]);
+            // Console.WriteLine("black rook flag");
+            // Console.WriteLine(board[67]);
+            // Console.WriteLine("black king flag");
+            // Console.WriteLine(board[68]);
+            // Console.WriteLine("black rook flag");
+            // Console.WriteLine(board[69]);
         }
     }
 
