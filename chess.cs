@@ -1,5 +1,5 @@
 // Just started learning C# in school
-// this chess game is made pretty fast but works kinda
+// this chess game was made pretty fast but works kinda
 //
 // TODO: if king or space to traverse to castle is under attack make castling not possible
 // TODO: make array that indicates which part of board is under attack
@@ -11,7 +11,8 @@
 // TODO: if king is killed stop game & congrat winner
 // TODO: make draw if 3 fold repitiion
 // TODO: create more methods to shorten code
-// TODO:
+// TODO: make selection2index methods store everything in array so not to keep finding the index each selection
+// TODO: redo menu loop to account for which player and clean up and make the if invalid selection better by basing on if board[selectionIndex] is equal to one of the players pieces
 
 
 using System;
