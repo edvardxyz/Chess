@@ -137,11 +137,11 @@ public static class Skak
 
         // for testing castling
         // white
-        board[57] = ' ';
-        board[62] = ' ';
-        board[58] = ' ';
-        board[61] = ' ';
-        board[59] = ' ';
+        // board[57] = ' ';
+        // board[62] = ' ';
+        // board[58] = ' ';
+        // board[61] = ' ';
+        // board[59] = ' ';
 
 
         board[0] = brook;
@@ -155,11 +155,11 @@ public static class Skak
 
         // for testing castling
         //black
-        board[1] = ' ';
-        board[2] = ' ';
-        board[3] = ' ';
-        board[5] = ' ';
-        board[6] = ' ';
+        // board[1] = ' ';
+        // board[2] = ' ';
+        // board[3] = ' ';
+        // board[5] = ' ';
+        // board[6] = ' ';
 
         // insert 0 in the check fields for moved pieces
         // and index 70 for sending dead pieces to list
@@ -839,18 +839,18 @@ public static class Skak
             Console.WriteLine(bkills);
 
             // testing info
-            Console.WriteLine("white rook flag");
-            Console.WriteLine(board[64]);
-            Console.WriteLine("white king flag");
-            Console.WriteLine(board[65]);
-            Console.WriteLine("white rook flag");
-            Console.WriteLine(board[66]);
-            Console.WriteLine("black rook flag");
-            Console.WriteLine(board[67]);
-            Console.WriteLine("black king flag");
-            Console.WriteLine(board[68]);
-            Console.WriteLine("black rook flag");
-            Console.WriteLine(board[69]);
+            // Console.WriteLine("white rook flag");
+            // Console.WriteLine(board[64]);
+            // Console.WriteLine("white king flag");
+            // Console.WriteLine(board[65]);
+            // Console.WriteLine("white rook flag");
+            // Console.WriteLine(board[66]);
+            // Console.WriteLine("black rook flag");
+            // Console.WriteLine(board[67]);
+            // Console.WriteLine("black king flag");
+            // Console.WriteLine(board[68]);
+            // Console.WriteLine("black rook flag");
+            // Console.WriteLine(board[69]);
         }
         if(player == "black"){
             char[] blackboard = new char[71];
